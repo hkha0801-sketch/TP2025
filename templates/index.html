@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Đăng ký VNG Tour</title>
+    <style>
+        body { font-family: sans-serif; max-width: 600px; margin: 20px auto; line-height: 1.6; }
+        textarea { width: 100%; height: 200px; font-family: monospace; }
+        .result { background: #eee; padding: 10px; border: 1px solid #ccc; margin-top: 10px; white-space: pre-wrap; }
+        button { padding: 10px 20px; cursor: pointer; background: #007bff; color: white; border: none; }
+    </style>
+</head>
+<body>
+    <h2>🐋 VNG Tour Registration</h2>
+    
+    <p>Dán danh sách sinh viên (JSON) vào đây:</p>
+    <textarea id="jsonInput" ></textarea>
+    
+    <br><br>
+    <button onclick="submitData()">Gửi dữ liệu</button>
+
+    <h3>Kết quả:</h3>
+    <div id="resultOutput" class="result">Chưa có dữ liệu...</div>
+
+    <script>
+        function submitData() {
+            const input = document.getElementById('jsonInput').value;
+            const output = document.getElementById('resultOutput');
+
+            fetch('/register', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: input
+            })
+            .then(res => res.json())
+            .then(data => {
+                output.innerText = JSON.stringify(data, null, 4);
+                output.style.color = data.status === "success" ? "green" : "red";
+            })
+            .catch(err => {
+                output.innerText = "Lỗi kết nối: " + err;
+                output.style.color = "red";
+            });
+        }
+    </script>
+</body>
+</html>
