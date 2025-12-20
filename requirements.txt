@@ -1,5 +1,0 @@
-flask
-gradio
-tensorflow
-numpy
-pillow
